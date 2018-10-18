@@ -57,21 +57,22 @@ public class MainActivity extends AppCompatActivity {
 
         File imagenRuta = new File(ruta);
         Intent intent = null;
-        Toast.makeText(this,"Crea intent",Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,"Crea intent",Toast.LENGTH_LONG).show();
         intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            Toast.makeText(this,"Si la versión es = o mayor que Nougat",Toast.LENGTH_LONG).show();
+            //Toast.makeText(this,"Si la versión es = o mayor que Nougat",Toast.LENGTH_LONG).show();
             String authorities = getApplicationContext().getPackageName()+".provider";
+            Toast.makeText(this,"La autoridad es:" + authorities,Toast.LENGTH_LONG).show();
             Uri imageUri = FileProvider.getUriForFile(getApplicationContext(), authorities, imagenRuta);
-            /*intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);*/
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         } else {
 
             Toast.makeText(this,"Si la versión es menor que Nougat",Toast.LENGTH_LONG).show();
-            /*intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagenRuta));*/
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagenRuta));
 
         }
 
-        /*startActivityForResult(intent,20);*/
+        startActivityForResult(intent,20);
 
     }
 
