@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -38,13 +39,15 @@ public class MainActivity extends AppCompatActivity {
         File archivoImagen = new File(Environment.getExternalStorageDirectory(), RUTA_IMAGEN);
         boolean isExisteImagen = archivoImagen.exists();
         String nombreImagen="";
-
+        Toast.makeText(this,"Inicio",Toast.LENGTH_LONG).show();
         if(!isExisteImagen){
 
+            Toast.makeText(this,"No existe imagen",Toast.LENGTH_LONG).show();
             isExisteImagen = archivoImagen.mkdirs();
 
         } else {
 
+            Toast.makeText(this,"Existe imagen",Toast.LENGTH_LONG).show();
             nombreImagen = (System.currentTimeMillis() / 1000) + ".jpg";
 
         }
@@ -54,17 +57,21 @@ public class MainActivity extends AppCompatActivity {
 
         File imagenRuta = new File(ruta);
         Intent intent = null;
+        Toast.makeText(this,"Crea intent",Toast.LENGTH_LONG).show();
         intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            Toast.makeText(this,"Si la versión es = o mayor que Nougat",Toast.LENGTH_LONG).show();
             String authorities = getApplicationContext().getPackageName()+".provider";
             Uri imageUri = FileProvider.getUriForFile(getApplicationContext(), authorities, imagenRuta);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            /*intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);*/
         } else {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagenRuta));
+
+            Toast.makeText(this,"Si la versión es menor que Nougat",Toast.LENGTH_LONG).show();
+            /*intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagenRuta));*/
 
         }
 
-        startActivityForResult(intent,20);
+        /*startActivityForResult(intent,20);*/
 
     }
 
@@ -73,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-
+        Toast.makeText(this,"En activityresult",Toast.LENGTH_LONG).show();
         MediaScannerConnection.scanFile(getApplicationContext(), new String[]{ruta},
                 null, new MediaScannerConnection.OnScanCompletedListener() {
                     @Override
@@ -83,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         // Asignamos la foto tomada a nuestro ImageView
+        Toast.makeText(this,"Asignar imagen",Toast.LENGTH_LONG).show();
         Bitmap bitmap = BitmapFactory.decodeFile(ruta);
         imageAroma.setImageBitmap(bitmap);
 
